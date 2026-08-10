@@ -261,6 +261,16 @@ import '@ptd/react-designer/styles.css'
   close commits, while Escape calls `cancelGesture` and restores the exact opening value. Reset is one
   discrete gesture. A continuous color edit must create at most one history node and preserve undo/redo
   parity.
+- All remaining Inspector color consumers (single-object text/background/border, QR foreground/background,
+  barcode foreground, multi-selection text, and free-table cell text/background/border) use the local
+  `InspectorPtdColorField` adapter. The adapter maps `onOpenChange(true)` to `beginGesture`, emits transient
+  `onValue` updates, maps normal close to `commitGesture`, Escape to `cancelGesture`, and records a normalized
+  recent color only after a normal close. The adapter's reset action updates the default transiently so the
+  enclosing open gesture still commits once.
+- Mixed multi-selection color is represented as `value={null}` with a descriptive placeholder and never by
+  copying the first selected component's value. Table cell batch patches preserve the existing cell-selection
+  and one-history-step contract. New Inspector code must not import or recreate `InspectorColorControl` or a
+  native color input.
 - Recent colors are bounded Designer-instance UI state. Document colors are derived from PageConfig,
   component styles, table cells and QR/barcode content, normalized and de-duplicated by frequency plus
   stable document order. Neither palette mutates TemplateSchema or history, and disabled/locked controls

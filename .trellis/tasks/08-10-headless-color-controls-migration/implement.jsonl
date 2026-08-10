@@ -1,0 +1,8 @@
+{"file":".trellis/spec/monorepo/package-conventions.md","reason":"保持 @ptd/react-ui 公开 API、CSS subpath 和包边界不变。"}
+{"file":".trellis/spec/monorepo/typescript-conventions.md","reason":"迁移跨面板 React/TypeScript 控件时遵守 strict 类型和显式导出约定。"}
+{"file":".trellis/spec/monorepo/styling-conventions.md","reason":"颜色 Portal 与 Inspector UI 必须继续使用 CSS Modules、PTD token 和动态 CSS 变量。"}
+{"file":".trellis/spec/monorepo/directory-structure.md","reason":"确认 PropertyInspector、TableContentFields 与 react-ui 的层级边界。"}
+{"file":".trellis/spec/monorepo/quality-guidelines.md","reason":"遵守测试、lint、typecheck、build 和浏览器验证要求。"}
+{"file":".trellis/spec/monorepo/ptd-ui-system.md","reason":"保持 Foliq 颜色、Portal 交互边界、Field 状态和 headless primitive 合同。"}
+{"file":".trellis/spec/monorepo/react-designer-contract.md","reason":"保持多选、表格、二维码/条形码的 Store/history/Schema 宿主责任。"}
+{"file":".trellis/tasks/08-10-headless-color-controls-migration/research/migration-map.md","reason":"提供旧颜色控件使用点、事件映射和迁移风险清单。"}

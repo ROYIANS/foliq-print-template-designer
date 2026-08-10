@@ -99,6 +99,17 @@ Foliq 是一张数字化的制版工作台：**精密、轻快、可信，带有
 - HSV 面板必须提供 pointer 与键盘方向键两条操作路径；当前 Schema 颜色合同只接受六位 HEX 或
   `transparent`，因此 alpha 滑条不写入业务值，透明仍通过 `allowTransparent` 动作明确选择。
 
+#### Inspector 颜色适配边界
+
+Property Inspector、自由表格单元格、二维码、条形码和多选样式中的颜色字段统一使用业务适配器
+`InspectorPtdColorField`，不得再消费旧 `InspectorColorControl` 或原生 `<input type="color">`。
+适配器只负责把宿主的 `onStart`/`onFinish`/`onCancel`/`onValue` 手势回调接到 `PtdColorField`，并从
+当前 Store 派生最近颜色与文档颜色；`@ptd/react-ui` 仍不可导入 Store 或 history。
+
+表格和多选宿主必须继续使用 transient 更新，打开到关闭只提交一个 gesture；混合颜色用
+`value={null}` 加可读 `placeholder` 表达，不得把第一个组件的颜色伪装成统一值。`allowTransparent`、
+默认值和锁定状态按原字段 Schema 合同逐个保留，业务适配器不得扩展 alpha 或改变导出 DOM。
+
 ## 4. Token 架构
 
 ### 4.1 原始色板

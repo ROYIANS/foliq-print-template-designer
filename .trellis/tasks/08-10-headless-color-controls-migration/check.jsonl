@@ -1,0 +1,6 @@
+{"file":".trellis/spec/monorepo/quality-guidelines.md","reason":"检查迁移后的全量测试、lint、typecheck、build 和 CSS/浏览器质量门禁。"}
+{"file":".trellis/spec/monorepo/typescript-conventions.md","reason":"检查公开 primitive 使用和宿主事件适配的 strict 类型安全。"}
+{"file":".trellis/spec/monorepo/styling-conventions.md","reason":"检查没有重新引入原生颜色样式、inline 静态 token 或 Portal 样式泄漏。"}
+{"file":".trellis/spec/monorepo/ptd-ui-system.md","reason":"检查所有 Inspector 颜色入口是否遵守统一 PTD 视觉和交互契约。"}
+{"file":".trellis/spec/monorepo/react-designer-contract.md","reason":"检查多选、表格、QR/barcode 的 history、混合值和 Schema 边界。"}
+{"file":".trellis/tasks/08-10-headless-color-controls-migration/research/migration-map.md","reason":"按迁移地图核对旧消费者是否全部覆盖且没有遗漏。"}
