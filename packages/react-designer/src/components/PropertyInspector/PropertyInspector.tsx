@@ -35,7 +35,6 @@ import {
 import { useEditorStore } from '../../state'
 import { PanelBody, PanelFooter, PanelHeader, PanelRoot } from '../Panel'
 import {
-  InspectorColorControl as ColorInput,
   InspectorFileAction,
   InspectorMetricInput as MetricInput,
   InspectorNumberInput as NumberInput,
@@ -44,6 +43,7 @@ import {
   InspectorTextArea,
   InspectorTextInput,
 } from './InspectorControls'
+import { InspectorPtdColorField } from './InspectorPtdColorField'
 import { isEditableTextPropValue, isHexColor, parseTextPropValue } from './propertyValue'
 import styles from './PropertyInspector.module.css'
 import { TableContentFields } from './TableContentFields'
@@ -879,7 +879,7 @@ function SingleInspector({ component }: { component: ComponentSchema }) {
         <InspectorSection title="外观" meta={showsBorder ? '颜色与描边' : '填充'}>
           <div className={styles.fieldGrid}>
             {showsTextColor && (
-              <ColorInput
+              <InspectorPtdColorField
                 label="文字"
                 value={color(component.style.color, '#1d2735')}
                 defaultValue="#1d2735"
@@ -891,7 +891,7 @@ function SingleInspector({ component }: { component: ComponentSchema }) {
               />
             )}
             {showsBackground && (
-              <ColorInput
+              <InspectorPtdColorField
                 label={component.component === 'RoyLine' ? '线条' : '背景'}
                 value={paint(component.style.background, '#f8fafc')}
                 defaultValue="#f8fafc"
@@ -907,7 +907,7 @@ function SingleInspector({ component }: { component: ComponentSchema }) {
               <div className={styles.advancedWrap}>
                 <InspectorDisclosure title="高级描边与圆角" meta="按需展开">
                   <div className={styles.fieldGrid}>
-                    <ColorInput
+                    <InspectorPtdColorField
                       label="边框色"
                       value={color(component.style.borderColor, '#7d8999')}
                       defaultValue="#7d8999"
@@ -1190,7 +1190,7 @@ function QRCodeContentFields({
           onCancel={onCancel}
           onValue={(margin) => patch({ margin })}
         />
-        <ColorInput
+        <InspectorPtdColorField
           label="前景"
           value={value.colorDark}
           defaultValue="#1d2735"
@@ -1200,7 +1200,7 @@ function QRCodeContentFields({
           onCancel={onCancel}
           onValue={(colorDark) => patch({ colorDark })}
         />
-        <ColorInput
+        <InspectorPtdColorField
           label="背景"
           value={value.colorLight}
           defaultValue="#ffffff"
@@ -1254,7 +1254,7 @@ function BarCodeContentFields({
           onFinish={onFinish}
           onValue={(bcid) => patch({ bcid: bcid as BarCodeProps['bcid'] })}
         />
-        <ColorInput
+        <InspectorPtdColorField
           label="前景"
           value={value.colorDark}
           defaultValue="#1d2735"
@@ -1381,7 +1381,7 @@ function BatchInspector({ components }: { components: ComponentSchema[] }) {
                 onCancel={cancel}
                 onValue={(value) => store.updateSelectedStyles({ fontSize: value }, true)}
               />
-              <ColorInput
+              <InspectorPtdColorField
                 label="文字"
                 value={
                   sharedColor.mixed || !isHexColor(sharedColor.value) ? null : sharedColor.value

@@ -27,13 +27,13 @@ import {
 } from '../../config/typography'
 import { useEditorStore } from '../../state'
 import {
-  InspectorColorControl as ColorField,
   InspectorMetricInput as MetricField,
   InspectorNumberInput as NumberField,
   InspectorSegmentedInput as SegmentedField,
   InspectorSelectInput as SelectField,
   InspectorTextArea,
 } from './InspectorControls'
+import { InspectorPtdColorField } from './InspectorPtdColorField'
 import styles from './PropertyInspector.module.css'
 
 export interface TableContentFieldsProps {
@@ -330,7 +330,7 @@ export function TableContentFields({
                 patchCells({ verticalAlign: next as TableCellStyle['verticalAlign'] })
               }
             />
-            <ColorField
+            <InspectorPtdColorField
               label="文字颜色"
               value={primaryStyle?.color ?? '#1d2735'}
               defaultValue="#1d2735"
@@ -340,7 +340,7 @@ export function TableContentFields({
               onCancel={onCancel}
               onValue={(next) => patchCells({ color: next }, false)}
             />
-            <ColorField
+            <InspectorPtdColorField
               label="背景颜色"
               value={primaryStyle?.background ?? '#ffffff'}
               defaultValue="#ffffff"
@@ -350,7 +350,7 @@ export function TableContentFields({
               onCancel={onCancel}
               onValue={(next) => patchCells({ background: next }, false)}
             />
-            <ColorField
+            <InspectorPtdColorField
               label="边框颜色"
               value={primaryStyle?.borderColor ?? '#8d99a8'}
               defaultValue="#8d99a8"
