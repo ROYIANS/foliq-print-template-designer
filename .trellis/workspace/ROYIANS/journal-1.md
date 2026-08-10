@@ -1004,3 +1004,37 @@ Opened GitHub OAuth access, added admin-aware demo restoration, keyed design and
 ### Next Steps
 
 - None - task complete
+
+
+## Session 30: Headless color controls migration
+
+**Date**: 2026-08-10
+**Task**: Headless color controls migration
+**Branch**: `feature/refc`
+
+### Summary
+
+Migrated all Property Inspector, table, QR, barcode, and multi-selection color fields to the Store-agnostic PtdColorField adapter; removed native color control implementation and stale CSS; added gesture/history, mixed-value, and surface regression coverage; updated PTD UI and react-designer contracts; passed lint, workspace typecheck, 167 react-designer tests, full build, and real Chromium smoke.
+
+### Main Changes
+
+(Add details)
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `32b738d` | (see git log) |
+| `d51df6f` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete

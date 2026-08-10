@@ -8,7 +8,7 @@
 
 <!-- @@@auto:current-status -->
 - **Active File**: `journal-1.md`
-- **Total Sessions**: 29
+- **Total Sessions**: 30
 - **Last Active**: 2026-08-10
 <!-- @@@/auto:current-status -->
 
@@ -19,7 +19,7 @@
 <!-- @@@auto:active-documents -->
 | File | Lines | Status |
 |------|-------|--------|
-| `journal-1.md` | ~1006 | Active |
+| `journal-1.md` | ~1040 | Active |
 <!-- @@@/auto:active-documents -->
 
 ---
@@ -29,6 +29,7 @@
 <!-- @@@auto:session-history -->
 | # | Date | Title | Commits | Branch |
 |---|------|-------|---------|--------|
+| 30 | 2026-08-10 | Headless color controls migration | `32b738d`, `d51df6f` | `feature/refc` |
 | 29 | 2026-08-10 | 完成 headless PTD 颜色字段第二切片 | `8d5fcd4`, `28f917b` | `feature/refc` |
 | 28 | 2026-08-10 | Headless PTD 配置基础组件第一切片 | `8b1b04a`, `7f9ee84` | `feature/refc` |
 | 27 | 2026-08-07 | Milestone B2 富文本排版与工具条收官 | `92d1211` | `feature/refc` |
