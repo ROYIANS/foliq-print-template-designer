@@ -3,7 +3,7 @@
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { PtdField, PtdSegmented, PtdSelect } from '../index'
+import { PtdField, PtdSegmented, PtdSelect, ptdThemeClass } from '../index'
 
 describe('@ptd/react-ui primitives', () => {
   let container: HTMLDivElement
@@ -11,6 +11,7 @@ describe('@ptd/react-ui primitives', () => {
 
   beforeEach(() => {
     ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+    Element.prototype.scrollIntoView ??= () => undefined
     container = document.createElement('div')
     document.body.append(container)
     root = createRoot(container)
@@ -81,5 +82,74 @@ describe('@ptd/react-ui primitives', () => {
     const buttons = [...container.querySelectorAll<HTMLButtonElement>('button')]
     expect(buttons[0]?.disabled).toBe(true)
     expect(buttons.slice(1).every((button) => button.disabled)).toBe(true)
+  })
+
+  it('keeps Select keyboard interactions in the themed Portal and supports dismissal', async () => {
+    const values: string[] = []
+    const opens: boolean[] = []
+    await act(async () => {
+      root.render(
+        <PtdSelect
+          label="纸张规格"
+          value="A4"
+          options={[
+            { value: 'A4', label: 'A4 · 210 × 297 mm' },
+            { value: 'custom', label: '自定义尺寸' },
+          ]}
+          onValueChange={(value) => values.push(value)}
+          onOpenChange={(open) => opens.push(open)}
+        />,
+      )
+    })
+
+    const trigger = container.querySelector<HTMLButtonElement>('[role="combobox"]')
+    expect(trigger).not.toBeNull()
+
+    trigger?.focus()
+    await act(async () => {
+      trigger?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }))
+      await new Promise((resolve) => setTimeout(resolve, 0))
+    })
+
+    const content = document.body.querySelector(
+      '[role="listbox"][data-ptd-editor-interactive="true"]',
+    )
+    expect(content).not.toBeNull()
+    expect(content?.classList.contains(ptdThemeClass)).toBe(true)
+    expect(opens).toEqual([true])
+
+    const custom = [...document.body.querySelectorAll('[role="option"]')].find((option) =>
+      option.textContent?.includes('自定义尺寸'),
+    )
+    expect(custom).not.toBeNull()
+    await act(async () => {
+      ;(custom as HTMLElement | undefined)?.focus()
+      custom?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    })
+    expect(values).toEqual(['custom'])
+    expect(opens.at(-1)).toBe(false)
+
+    trigger?.focus()
+    await act(async () => {
+      trigger?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }))
+      await new Promise((resolve) => setTimeout(resolve, 0))
+    })
+    expect(opens.at(-1)).toBe(true)
+    await act(async () => {
+      document.body.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, button: 0 }))
+    })
+    expect(opens.at(-1)).toBe(false)
+
+    trigger?.focus()
+    await act(async () => {
+      trigger?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }))
+      await new Promise((resolve) => setTimeout(resolve, 0))
+    })
+    await act(async () => {
+      document.activeElement?.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+      )
+    })
+    expect(opens.at(-1)).toBe(false)
   })
 })

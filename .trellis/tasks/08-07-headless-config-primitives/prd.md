@@ -77,7 +77,8 @@
 * `PtdField`、`PtdSelect`、`PtdSegmented` are implemented with Radix Select/ToggleGroup wrappers; the package is store-agnostic and filters invalid empty option values fail-closed.
 * `packages/react-designer` bundles `@ptd/react-ui` so its existing `./styles.css` remains the single host CSS entry for Designer hosts, while the new package remains independently consumable.
 * `PropertyInspector` page settings now use the new Select/Segmented primitives; text/number inputs and existing history code remain in `InspectorControls`.
-* Verification completed: `@ptd/react-ui` 3 tests, React Designer 24 files/162 tests, workspace lint/typecheck/build, and real Chrome smoke against `http://localhost:5173` covering Select open/option selection, custom page size and landscape ToggleGroup state.
+* Verification completed: `@ptd/react-ui` 4 tests, React Designer 24 files/163 tests, workspace lint/typecheck/build, and real Chrome smoke against `http://localhost:5173` covering Select open/option selection, custom page size and landscape ToggleGroup state.
+* Select regression coverage now drives the real Radix keyboard contract (ArrowDown/Enter), verifies themed Portal content, outside-click/Escape dismissal, and asserts that a page-size selection creates exactly one undoable history step.
 
 ## Research References
 
