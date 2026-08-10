@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { useSignals } from '@preact/signals-react/runtime'
 import {
   BAR_CODE_FORMATS,
@@ -24,7 +24,7 @@ import {
   type TextColumnFill,
 } from '@ptd/core'
 import { RiDeleteBinLine, RiLandscapeLine, RiRuler2Line, RiUpload2Line } from '@remixicon/react'
-import { PtdSegmented, PtdSelect } from '@ptd/react-ui'
+import { PtdColorField, PtdSegmented, PtdSelect, normalizePtdColor } from '@ptd/react-ui'
 import {
   CJK_FONT_FAMILY_OPTIONS,
   composeFontFamily,
@@ -47,6 +47,7 @@ import {
 import { isEditableTextPropValue, isHexColor, parseTextPropValue } from './propertyValue'
 import styles from './PropertyInspector.module.css'
 import { TableContentFields } from './TableContentFields'
+import { deriveDocumentColors } from './inspectorColors'
 
 function SectionHeading({ title, meta }: { title: string; meta?: string }) {
   return (
@@ -206,8 +207,14 @@ export function PropertyInspector() {
 }
 
 function PageInspector() {
+  useSignals()
   const store = useEditorStore()
   const page = store.pageConfig.value
+  const documentColors = useMemo(
+    () => deriveDocumentColors(store.template.value),
+    [store.template.value],
+  )
+  const recentColors = store.recentColors.value
   const dimensions = getPageDimensions(page)
   const unit = store.measurementUnit.value
   const [titleDraft, setTitleDraft] = useState<string | null>(null)
@@ -417,25 +424,51 @@ function PageInspector() {
 
       <InspectorSection title="纸张与排版" meta={primaryFontName(page.fontFamily)}>
         <div className={styles.fieldGrid}>
-          <ColorInput
+          <PtdColorField
             label="纸张颜色"
             value={page.background}
             defaultValue={DEFAULT_PAGE_CONFIG.background}
             disabled={false}
-            onStart={start}
-            onFinish={finish}
+            recentColors={recentColors}
+            documentColors={documentColors}
+            onOpenChange={(open) => {
+              if (open) start()
+              else {
+                finish()
+                const normalized = normalizePtdColor(store.pageConfig.value.background)
+                if (normalized) store.recordRecentColor(normalized)
+              }
+            }}
             onCancel={cancel}
-            onValue={(background) => update({ background })}
+            onValueChange={(background) => update({ background })}
+            onReset={() => {
+              start()
+              update({ background: DEFAULT_PAGE_CONFIG.background })
+              finish()
+            }}
           />
-          <ColorInput
+          <PtdColorField
             label="默认文字"
             value={page.color}
             defaultValue={DEFAULT_PAGE_CONFIG.color}
             disabled={false}
-            onStart={start}
-            onFinish={finish}
+            recentColors={recentColors}
+            documentColors={documentColors}
+            onOpenChange={(open) => {
+              if (open) start()
+              else {
+                finish()
+                const normalized = normalizePtdColor(store.pageConfig.value.color)
+                if (normalized) store.recordRecentColor(normalized)
+              }
+            }}
             onCancel={cancel}
-            onValue={(color) => update({ color })}
+            onValueChange={(color) => update({ color })}
+            onReset={() => {
+              start()
+              update({ color: DEFAULT_PAGE_CONFIG.color })
+              finish()
+            }}
           />
           <PtdSelect
             label="默认字体"

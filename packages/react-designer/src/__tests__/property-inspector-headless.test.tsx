@@ -93,4 +93,47 @@ describe('PropertyInspector headless page settings', () => {
     expect(store.pageConfig.value.pageSize).toBe(initial.pageConfig.pageSize)
     expect(store.historyIndex.value).toBe(initialHistoryIndex)
   })
+
+  it('commits a continuous page color gesture once and restores it with undo', async () => {
+    const initial = template()
+    const store = new EditorStore(initial)
+    await act(async () => {
+      root.render(
+        <EditorStoreProvider store={store}>
+          <PropertyInspector />
+        </EditorStoreProvider>,
+      )
+    })
+
+    const trigger = container.querySelector<HTMLButtonElement>('[aria-label="纸张颜色"]')
+    expect(trigger).not.toBeNull()
+    const initialHistoryLength = store.history.value.length
+    await act(async () => {
+      trigger?.click()
+      await new Promise((resolve) => setTimeout(resolve, 0))
+    })
+    const input = document.body.querySelector<HTMLInputElement>('[aria-label="纸张颜色颜色值"]')
+    expect(input).not.toBeNull()
+    await act(async () => {
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
+      setter?.call(input, '#ABC')
+      input?.dispatchEvent(new Event('input', { bubbles: true }))
+    })
+    expect(store.pageConfig.value.background).toBe('#aabbcc')
+
+    const outside = document.createElement('div')
+    document.body.append(outside)
+    await act(async () => {
+      outside.dispatchEvent(
+        new MouseEvent('pointerdown', { bubbles: true, cancelable: true, button: 0 }),
+      )
+      await new Promise((resolve) => setTimeout(resolve, 0))
+    })
+    expect(store.history.value).toHaveLength(initialHistoryLength + 1)
+
+    await act(async () => store.undo())
+    expect(store.pageConfig.value.background).toBe(initial.pageConfig.background)
+    await act(async () => store.redo())
+    expect(store.pageConfig.value.background).toBe('#aabbcc')
+  })
 })

@@ -222,6 +222,314 @@
   text-overflow: ellipsis;
 }
 
+.colorFieldTrigger {
+  width: 100%;
+  min-width: 0;
+  height: var(--ptd-control-md);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ptd-space-2);
+  box-sizing: border-box;
+  padding: 0 7px;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--ptd-radius-control);
+  color: var(--ptd-text-strong);
+  background: var(--ptd-surface-field);
+  box-shadow: var(--ptd-shadow-field);
+  font: inherit;
+  font-size: 11px;
+  text-align: left;
+  transition:
+    background-color var(--ptd-duration-instant) var(--ptd-ease-out),
+    box-shadow var(--ptd-duration-instant) var(--ptd-ease-out);
+}
+
+.colorFieldTrigger:hover:not(:disabled) {
+  box-shadow: var(--ptd-shadow-field-hover);
+}
+
+.colorFieldTrigger:focus-visible {
+  outline: 2px solid var(--ptd-focus);
+  outline-offset: 1px;
+  box-shadow: var(--ptd-shadow-field-hover);
+}
+
+.colorFieldTrigger:disabled {
+  color: var(--ptd-text-disabled);
+  background: var(--ptd-surface-sunken);
+  box-shadow: none;
+  cursor: default;
+}
+
+.colorFieldSwatch,
+.colorFieldPreview {
+  position: relative;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  overflow: hidden;
+  border: 1px solid var(--ptd-border-subtle);
+  border-radius: var(--ptd-radius-control-sm);
+  background-color: var(--ptd-color-field, #fff);
+  box-sizing: border-box;
+  isolation: isolate;
+}
+
+.colorFieldSwatch::after,
+.colorFieldPreview::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(45deg, rgb(0 0 0 / 8%) 25%, transparent 25%),
+    linear-gradient(-45deg, rgb(0 0 0 / 8%) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgb(0 0 0 / 8%) 75%),
+    linear-gradient(-45deg, transparent 75%, rgb(0 0 0 / 8%) 75%);
+  background-position:
+    0 0,
+    0 5px,
+    5px -5px,
+    -5px 0;
+  background-size: 10px 10px;
+}
+
+.colorFieldTrigger[data-transparent] .colorFieldSwatch {
+  background-color: transparent;
+}
+
+.colorFieldValue {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.colorFieldIcon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  color: var(--ptd-text-muted);
+}
+
+.colorFieldContent {
+  z-index: var(--ptd-layer-floating);
+  width: min(280px, calc(100vw - 24px));
+  max-height: min(640px, calc(100vh - 24px));
+  box-sizing: border-box;
+  display: grid;
+  gap: var(--ptd-space-3);
+  padding: var(--ptd-space-3);
+  border: 1px solid var(--ptd-border-subtle);
+  border-radius: var(--ptd-radius-overlay);
+  background: var(--ptd-surface-raised);
+  box-shadow: var(--ptd-shadow-control);
+  overflow-x: hidden;
+  overflow-y: auto;
+  animation: selectIn var(--ptd-duration-state) var(--ptd-ease-out);
+}
+
+.colorFieldEditor {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: var(--ptd-space-2);
+}
+
+.colorFieldPicker {
+  display: grid;
+  gap: var(--ptd-space-2);
+}
+
+.colorFieldSpectrum,
+.colorFieldHue {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--ptd-border-subtle);
+  outline: none;
+  touch-action: none;
+  user-select: none;
+}
+
+.colorFieldSpectrum {
+  height: 148px;
+  border-radius: var(--ptd-radius-surface);
+  cursor: crosshair;
+  background:
+    linear-gradient(to top, #000, transparent),
+    linear-gradient(to right, #fff, hsl(var(--ptd-color-field-hue) 100% 50%));
+  box-shadow: var(--ptd-shadow-field);
+}
+
+.colorFieldHue {
+  height: 16px;
+  border-radius: var(--ptd-radius-control-sm);
+  cursor: ew-resize;
+  background: linear-gradient(
+    to right,
+    #f00 0%,
+    #ff0 16.67%,
+    #0f0 33.33%,
+    #0ff 50%,
+    #00f 66.67%,
+    #f0f 83.33%,
+    #f00 100%
+  );
+  box-shadow: var(--ptd-shadow-field);
+}
+
+.colorFieldSpectrum:focus-visible,
+.colorFieldHue:focus-visible {
+  outline: 2px solid var(--ptd-focus);
+  outline-offset: 1px;
+}
+
+.colorFieldSpectrumThumb,
+.colorFieldHueThumb {
+  position: absolute;
+  pointer-events: none;
+  box-sizing: border-box;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 55%),
+    0 1px 3px rgb(0 0 0 / 35%);
+}
+
+.colorFieldSpectrumThumb {
+  width: 14px;
+  height: 14px;
+  left: var(--ptd-color-field-saturation);
+  top: var(--ptd-color-field-brightness);
+  transform: translate(-50%, -50%);
+}
+
+.colorFieldHueThumb {
+  width: 12px;
+  height: 22px;
+  left: var(--ptd-color-field-hue-position);
+  top: 50%;
+  border-radius: var(--ptd-radius-control-sm);
+  transform: translate(-50%, -50%);
+}
+
+.colorFieldInputLabel,
+.colorFieldSectionTitle {
+  color: var(--ptd-text-muted);
+  font-size: var(--ptd-text-10);
+  line-height: 1.2;
+}
+
+.colorFieldInput {
+  width: 100%;
+  min-width: 0;
+  height: var(--ptd-control-md);
+  box-sizing: border-box;
+  padding: 0 var(--ptd-space-2);
+  border: 0;
+  border-radius: var(--ptd-radius-control);
+  color: var(--ptd-text-strong);
+  background: var(--ptd-surface-field);
+  box-shadow: var(--ptd-shadow-field);
+  font: inherit;
+  font-size: var(--ptd-text-11);
+}
+
+.colorFieldInput:focus-visible {
+  outline: 2px solid var(--ptd-focus);
+  outline-offset: 1px;
+  box-shadow: var(--ptd-shadow-field-hover);
+}
+
+.colorFieldInput[aria-invalid='true'] {
+  outline: 2px solid var(--ptd-danger);
+  outline-offset: 1px;
+}
+
+.colorFieldPreview {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--ptd-radius-control);
+}
+
+.colorFieldActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ptd-space-2);
+}
+
+.colorFieldAction {
+  min-height: var(--ptd-control-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 var(--ptd-space-2);
+  border: 0;
+  border-radius: var(--ptd-radius-control-sm);
+  color: var(--ptd-text-muted);
+  background: transparent;
+  font: inherit;
+  font-size: var(--ptd-text-10);
+}
+
+.colorFieldAction:hover:not(:disabled),
+.colorFieldAction[data-active='true'] {
+  color: var(--ptd-text-strong);
+  background: var(--ptd-action-subtle);
+}
+
+.colorFieldAction:focus-visible,
+.colorFieldSwatchButton:focus-visible {
+  outline: 2px solid var(--ptd-focus);
+  outline-offset: 1px;
+}
+
+.colorFieldAction:disabled {
+  color: var(--ptd-text-disabled);
+  cursor: default;
+}
+
+.colorFieldTransparent {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  border: 1px solid var(--ptd-border);
+  border-radius: var(--ptd-radius-control-sm);
+  background: repeating-linear-gradient(45deg, var(--ptd-border-subtle) 0 2px, transparent 2px 4px);
+}
+
+.colorFieldSection {
+  display: grid;
+  gap: var(--ptd-space-2);
+}
+
+.colorFieldSwatches {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.colorFieldSwatchButton {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  padding: 0;
+  border: 1px solid var(--ptd-border-subtle);
+  border-radius: var(--ptd-radius-control-sm);
+  color: var(--ptd-text-strong);
+  background-color: var(--ptd-color-field, #fff);
+  box-shadow: var(--ptd-shadow-field);
+}
+
+.colorFieldSwatchButton:hover {
+  box-shadow: var(--ptd-shadow-field-hover);
+}
+
 @keyframes selectIn {
   from {
     opacity: 0;
@@ -235,7 +543,8 @@
 }
 
 @media (pointer: coarse) {
-  .selectTrigger {
+  .selectTrigger,
+  .colorFieldTrigger {
     min-height: var(--ptd-control-touch);
   }
 
@@ -246,6 +555,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .selectContent,
+  .colorFieldContent,
   .selectIcon,
   .selectTrigger {
     animation: none;

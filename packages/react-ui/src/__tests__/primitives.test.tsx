@@ -3,7 +3,7 @@
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { PtdField, PtdSegmented, PtdSelect, ptdThemeClass } from '../index'
+import { PtdColorField, PtdField, PtdSegmented, PtdSelect, ptdThemeClass } from '../index'
 
 describe('@ptd/react-ui primitives', () => {
   let container: HTMLDivElement
@@ -151,5 +151,184 @@ describe('@ptd/react-ui primitives', () => {
       )
     })
     expect(opens.at(-1)).toBe(false)
+  })
+
+  it('keeps ColorField keyboard and Portal boundaries stable', async () => {
+    const values: string[] = []
+    const opens: boolean[] = []
+    const cancels: number[] = []
+    await act(async () => {
+      root.render(
+        <PtdColorField
+          label="纸张颜色"
+          value="#123456"
+          defaultValue="#ffffff"
+          recentColors={['#AABBCC', '#aabbcc', 'not-a-color']}
+          documentColors={['#112233']}
+          onValueChange={(value) => values.push(value)}
+          onOpenChange={(open) => opens.push(open)}
+          onCancel={() => cancels.push(1)}
+        />,
+      )
+    })
+
+    const trigger = container.querySelector<HTMLButtonElement>('[aria-label="纸张颜色"]')
+    expect(trigger).not.toBeNull()
+    trigger?.focus()
+    await act(async () => {
+      trigger?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+      trigger?.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter', bubbles: true }))
+      trigger?.click()
+      await new Promise((resolve) => setTimeout(resolve, 0))
+    })
+    const content = document.body.querySelector(
+      '[data-ptd-editor-interactive="true"][role="dialog"]',
+    )
+    expect(content).not.toBeNull()
+    expect(content?.classList.contains(ptdThemeClass)).toBe(true)
+    expect(opens).toEqual([true])
+    expect(document.body.querySelectorAll('[aria-label="最近使用 #aabbcc"]').length).toBe(1)
+
+    const input = document.body.querySelector<HTMLInputElement>('[aria-label="纸张颜色颜色值"]')
+    expect(input).not.toBeNull()
+    await act(async () => {
+      if (!input) return
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
+      setter?.call(input, '#ABC')
+      input.dispatchEvent(new Event('input', { bubbles: true }))
+      input.dispatchEvent(new Event('change', { bubbles: true }))
+    })
+    expect(values).toContain('#aabbcc')
+
+    await act(async () => {
+      const outside = document.createElement('div')
+      document.body.append(outside)
+      outside.dispatchEvent(
+        new MouseEvent('pointerdown', { bubbles: true, cancelable: true, button: 0 }),
+      )
+      await new Promise((resolve) => setTimeout(resolve, 0))
+    })
+    expect(opens.at(-1)).toBe(false)
+
+    await act(async () => {
+      trigger?.click()
+      await new Promise((resolve) => setTimeout(resolve, 0))
+    })
+    expect(opens.at(-1)).toBe(true)
+    await act(async () => {
+      document.activeElement?.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+      )
+      await new Promise((resolve) => setTimeout(resolve, 0))
+    })
+    expect(opens.at(-1)).toBe(false)
+    expect(cancels).toHaveLength(1)
+  })
+
+  it('provides a visual HSV picker with keyboard color adjustment', async () => {
+    const values: string[] = []
+    await act(async () => {
+      root.render(
+        <PtdColorField
+          label="颜色"
+          value="#336699"
+          onValueChange={(value) => values.push(value)}
+        />,
+      )
+    })
+
+    const trigger = container.querySelector<HTMLButtonElement>('[aria-label="颜色"]')
+    await act(async () => trigger?.click())
+
+    const spectrum = document.body.querySelector<HTMLDivElement>(
+      '[role="slider"][aria-label="饱和度和明度"]',
+    )
+    const hue = document.body.querySelector<HTMLDivElement>('[role="slider"][aria-label="色相"]')
+    expect(spectrum).not.toBeNull()
+    expect(hue).not.toBeNull()
+    expect(spectrum?.getAttribute('aria-valuenow')).toBe('67')
+    expect(hue?.getAttribute('aria-valuenow')).toBe('210')
+
+    await act(async () => {
+      spectrum?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true }))
+      hue?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }))
+    })
+
+    expect(values).toHaveLength(2)
+    expect(values.every((value) => /^#[0-9a-f]{6}$/.test(value))).toBe(true)
+  })
+
+  it('rejects invalid drafts and exposes transparent/reset actions explicitly', async () => {
+    const values: string[] = []
+    const resets: number[] = []
+    await act(async () => {
+      root.render(
+        <PtdColorField
+          label="颜色"
+          value="#123456"
+          defaultValue="#ffffff"
+          allowTransparent
+          documentColors={['#112233']}
+          onValueChange={(value) => values.push(value)}
+          onReset={() => resets.push(1)}
+        />,
+      )
+    })
+    const trigger = container.querySelector<HTMLButtonElement>('[aria-label="颜色"]')
+    await act(async () => trigger?.click())
+    const input = document.body.querySelector<HTMLInputElement>('[aria-label="颜色颜色值"]')
+    await act(async () => {
+      if (!input) return
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
+      setter?.call(input, 'oops')
+      input.dispatchEvent(new Event('input', { bubbles: true }))
+    })
+    expect(values).toEqual([])
+    expect(input?.getAttribute('aria-invalid')).toBe('true')
+    const transparent = document.body.querySelector<HTMLButtonElement>('[data-active="true"]')
+    const transparentAction = [...document.body.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent?.includes('无色'),
+    )
+    expect(transparent).toBeNull()
+    expect(transparentAction).not.toBeNull()
+    await act(async () => transparentAction?.click())
+    expect(values).toContain('transparent')
+    const reset = [...document.body.querySelectorAll<HTMLButtonElement>('button')].find((button) =>
+      button.textContent?.includes('恢复默认'),
+    )
+    expect(reset).not.toBeNull()
+    await act(async () => reset?.click())
+    expect(resets).toEqual([1])
+  })
+
+  it('fails closed when disabled or locked, including an open-to-locked transition', async () => {
+    const opens: boolean[] = []
+    await act(async () => {
+      root.render(
+        <PtdColorField
+          label="颜色"
+          value="#123456"
+          disabled
+          onOpenChange={(open) => opens.push(open)}
+        />,
+      )
+    })
+    const disabledTrigger = container.querySelector<HTMLButtonElement>('[aria-label="颜色"]')
+    expect(disabledTrigger?.disabled).toBe(true)
+    await act(async () => disabledTrigger?.click())
+    expect(opens).toEqual([])
+
+    await act(async () => {
+      root.render(
+        <PtdColorField
+          label="颜色"
+          value="#123456"
+          locked
+          onOpenChange={(open) => opens.push(open)}
+        />,
+      )
+    })
+    const lockedTrigger = container.querySelector<HTMLButtonElement>('[aria-label="颜色"]')
+    expect(lockedTrigger?.disabled).toBe(true)
   })
 })
