@@ -1,0 +1,8 @@
+{"file":".trellis/spec/monorepo/package-conventions.md","reason":"确保 @ptd/react-ui 的依赖、exports、CSS subpath 与 tsup 构建契约保持一致。"}
+{"file":".trellis/spec/monorepo/typescript-conventions.md","reason":"PtdColorField 是公开 React/TypeScript API，必须遵守 strict 与 index.ts 显式导出规则。"}
+{"file":".trellis/spec/monorepo/styling-conventions.md","reason":"颜色字段和 Popover 属于 Designer UI，使用 CSS Modules 与 Radix data attributes 样式化。"}
+{"file":".trellis/spec/monorepo/directory-structure.md","reason":"确认 primitive、Designer Inspector 与测试的放置位置及跨包依赖边界。"}
+{"file":".trellis/spec/monorepo/quality-guidelines.md","reason":"遵守 lint、typecheck、构建顺序和 UI/Inspector 验证要求。"}
+{"file":".trellis/spec/monorepo/ptd-ui-system.md","reason":"保持 Foliq/PTD 颜色、表单、Portal 和交互边界的视觉与行为契约。"}
+{"file":".trellis/spec/monorepo/react-designer-contract.md","reason":"页面设置颜色迁移涉及 Store gesture/history、Schema 与受控 Inspector 边界。"}
+{"file":".trellis/tasks/08-10-headless-color-field/research/radix-popover-color-field.md","reason":"记录 Radix Popover Portal/focus/dismissal 与 palette+HEX MVP 的实现决策。"}

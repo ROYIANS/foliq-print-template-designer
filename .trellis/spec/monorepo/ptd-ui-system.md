@@ -63,6 +63,42 @@ Foliq 是一张数字化的制版工作台：**精密、轻快、可信，带有
 - `@ptd/react-designer/styles.css` 是唯一公共样式入口。
 - 应用级定制通过稳定的 `data-ptd-*` 属性和公共 token 完成，不依赖 CSS Module 生成类名。
 
+### 3.1 Headless PTD 配置原语
+
+`@ptd/react-ui` 是 Store-agnostic 的 PTD 配置控件包。它只发出受控事件，不导入
+`EditorStore`/history，也不修改 `TemplateSchema`。业务宿主负责把事件接到
+`beginGesture` → transient update → `commitGesture`/`cancelGesture`，并决定哪些值写入最近状态。
+
+`PtdColorField` 的最小公开契约如下：
+
+```tsx
+<PtdColorField
+  label="纸张颜色"
+  value={page.background}
+  defaultValue="#ffffff"
+  recentColors={recentColors}
+  documentColors={documentColors}
+  onOpenChange={(open) => (open ? beginGesture() : commitGesture())}
+  onValueChange={(color) => updatePageConfig({ background: color }, true)}
+  onCancel={cancelGesture}
+  onReset={() => resetPageColor()}
+/>
+```
+
+- 颜色输入采用自有 HSV 取色器（饱和度/明度二维面板 + 色相滑条）与主题/标准/最近/文档调色板，
+  同时保留 HEX draft：接受 `#RGB`/`#RRGGBB`，统一发出小写六位 HEX；
+  非法 draft 只显示 invalid/error，不发出业务值。未知受控值必须原样展示，不能自动纠正。
+- `allowTransparent` 未开启时不得接受 `transparent`；reset 是显式动作，不把空字符串当 reset。
+- 最近颜色和文档颜色是 UI 派生数据，不写入 Schema/history；最近颜色由宿主在一次已提交 gesture 后调用
+  `EditorStore.recordRecentColor`。
+- ColorField 的 Trigger 与 Popover Portal Content 必须带 `data-ptd-editor-interactive="true"`；
+  Portal Content 还必须应用 `ptdThemeClass`。Trigger 支持 Enter/Space，Popover 支持 Escape、outside click；
+  Escape 通过 `onCancel` 恢复打开前值，disabled/locked 关闭已打开的 Portal。
+- 颜色字段 CSS 使用 `--ptd-*` token 和 CSS Modules。动态样本色只能作为 `--ptd-color-field` 这类 CSS 变量，
+  不能把静态视觉 token 写进 JSX inline style。
+- HSV 面板必须提供 pointer 与键盘方向键两条操作路径；当前 Schema 颜色合同只接受六位 HEX 或
+  `transparent`，因此 alpha 滑条不写入业务值，透明仍通过 `allowTransparent` 动作明确选择。
+
 ## 4. Token 架构
 
 ### 4.1 原始色板

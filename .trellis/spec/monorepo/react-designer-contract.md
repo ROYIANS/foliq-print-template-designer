@@ -255,6 +255,12 @@ import '@ptd/react-designer/styles.css'
 - Color controls accept three- or six-digit HEX drafts and persist normalized six-digit lowercase HEX.
   Transparent/no-color is exposed only for renderer properties that support it; reset restores the
   control's explicit semantic default.
+- Page Inspector's document settings use the Store-agnostic `PtdColorField` for paper and default text
+  color. The field exposes the PTD HSV surface/hue controls plus HEX and palette choices. Opening starts
+  one transient gesture; valid visual/HEX/palette changes remain transient until outside
+  close commits, while Escape calls `cancelGesture` and restores the exact opening value. Reset is one
+  discrete gesture. A continuous color edit must create at most one history node and preserve undo/redo
+  parity.
 - Recent colors are bounded Designer-instance UI state. Document colors are derived from PageConfig,
   component styles, table cells and QR/barcode content, normalized and de-duplicated by frequency plus
   stable document order. Neither palette mutates TemplateSchema or history, and disabled/locked controls

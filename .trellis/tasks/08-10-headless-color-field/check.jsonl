@@ -1,0 +1,6 @@
+{"file":".trellis/spec/monorepo/quality-guidelines.md","reason":"按项目质量矩阵检查测试、lint/typecheck、CSS 导出和构建顺序。"}
+{"file":".trellis/spec/monorepo/typescript-conventions.md","reason":"检查公开 primitive API 的 strict 类型和导出是否合规。"}
+{"file":".trellis/spec/monorepo/styling-conventions.md","reason":"检查 CSS Modules、Radix Portal 和主题 class 是否造成样式泄漏或焦点边界回归。"}
+{"file":".trellis/spec/monorepo/ptd-ui-system.md","reason":"检查 PTD 视觉 token、表单尺寸与交互语义是否保持一致。"}
+{"file":".trellis/spec/monorepo/react-designer-contract.md","reason":"检查 Inspector 手势、Schema/history 和最近颜色边界。"}
+{"file":".trellis/tasks/08-10-headless-color-field/research/radix-popover-color-field.md","reason":"对照记录的 Popover focus/dismissal 与颜色校验决策复核实现。"}
