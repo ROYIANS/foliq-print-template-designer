@@ -936,3 +936,37 @@ Opened GitHub OAuth access, added admin-aware demo restoration, keyed design and
 ### Next Steps
 
 - None - task complete
+
+
+## Session 28: Headless PTD 配置基础组件第一切片
+
+**Date**: 2026-08-10
+**Task**: Headless PTD 配置基础组件第一切片
+**Branch**: `feature/refc`
+
+### Summary
+
+完成 @ptd/react-ui 的 PtdField、PtdSelect、PtdSegmented 与文档页面设置迁移；补齐 Radix Select 的键盘、Portal、outside click、Escape 以及 history 单步/undo parity 测试；workspace lint、typecheck、build 和真实 Chromium smoke 通过。
+
+### Main Changes
+
+(Add details)
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `8b1b04a` | (see git log) |
+| `7f9ee84` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
