@@ -970,3 +970,37 @@ Opened GitHub OAuth access, added admin-aware demo restoration, keyed design and
 ### Next Steps
 
 - None - task complete
+
+
+## Session 29: 完成 headless PTD 颜色字段第二切片
+
+**Date**: 2026-08-10
+**Task**: 完成 headless PTD 颜色字段第二切片
+**Branch**: `feature/refc`
+
+### Summary
+
+为 @ptd/react-ui 增加完整 headless PtdColorField：自有 HSV 饱和度/明度面板、色相滑条、键盘与鼠标取色、HEX、主题/标准/最近/文档色板、透明与恢复默认；迁移页面设置颜色字段，补齐 history parity、Portal 交互边界、规范与真实 Chromium smoke。通过 react-ui/react-designer 测试、lint、typecheck 和 build；归档任务 08-10-headless-color-field。
+
+### Main Changes
+
+(Add details)
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `8d5fcd4` | (see git log) |
+| `28f917b` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
