@@ -12,18 +12,18 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@preact/signals-react": "^2.1.0",
+    "@preact/signals-react": "^3.12.0",
     "@ptd/core": "workspace:*",
     "@ptd/export": "workspace:*",
     "@ptd/react-designer": "workspace:*",
     "@remixicon/react": "4.9.0",
     "better-auth": "^1.6.25",
-    "react": "^18.3.0",
-    "react-dom": "^18.3.0"
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.3.0",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^4.3.0",
     "jsdom": "^25.0.1",
     "typescript": "^5.5.0",

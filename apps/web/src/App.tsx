@@ -105,7 +105,7 @@ export function useBrowserLocation() {
   const initialIndex = historyIndex(window.history.state) ?? 0
   const [location, setLocation] = useState(currentLocation)
   const currentIndexRef = useRef(initialIndex)
-  const blockerRef = useRef<NavigationBlocker>()
+  const blockerRef = useRef<NavigationBlocker | undefined>(undefined)
   const restoringPopRef = useRef(false)
   const bypassPopRef = useRef(false)
 

@@ -558,12 +558,15 @@ const productCases: ProductCase[] = [
 
 function ProductShowcase() {
   const railRef = useRef<HTMLDivElement>(null)
-  const dragRef = useRef<{
-    pointerId: number
-    startX: number
-    scrollLeft: number
-    moved: boolean
-  }>()
+  const dragRef = useRef<
+    | {
+        pointerId: number
+        startX: number
+        scrollLeft: number
+        moved: boolean
+      }
+    | undefined
+  >(undefined)
   const suppressClickRef = useRef(false)
   const [activeIndex, setActiveIndex] = useState(0)
   const [dragging, setDragging] = useState(false)

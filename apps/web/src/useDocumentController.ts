@@ -201,8 +201,8 @@ export function useDocumentController({
   const [state, setState] = useState<DocumentState>(initialState)
   const stateRef = useRef(state)
   const operationRef = useRef(0)
-  const requestRef = useRef<AbortController>()
-  const restoreOperationRef = useRef<number>()
+  const requestRef = useRef<AbortController | undefined>(undefined)
+  const restoreOperationRef = useRef<number | undefined>(undefined)
   const mountedRef = useRef(true)
   const onLocationChangeRef = useRef(onLocationChange)
 

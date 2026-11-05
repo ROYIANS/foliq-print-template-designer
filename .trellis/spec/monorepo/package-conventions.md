@@ -101,7 +101,7 @@ Implemented tsup packages keep two tsconfig files (for IDE + typecheck):
 | --------------------- | ------------------------------------------------------------- |
 | `@ptd/core`           | none                                                          |
 | `@ptd/components`     | `@preact/signals-core: ^1`                                    |
-| `@ptd/react-designer` | `react: >=18`, `react-dom: >=18`, `@preact/signals-react: ^2` |
+| `@ptd/react-designer` | `react: >=19`, `react-dom: >=19`, `@preact/signals-react: ^3` |
 | `@ptd/export`         | none                                                          |
 
 Framework packages (react, preact) go in `peerDependencies`, not `dependencies`.

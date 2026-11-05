@@ -62,7 +62,7 @@ export function Editor({ initialValue }: { initialValue: TemplateSchema }) {
 }
 ```
 
-Host 需要为设计器提供一个具有明确高度的容器，并显式加载 `styles.css`。React、React DOM 和 `@preact/signals-react` 是 peer dependencies，使用方必须自行声明。
+Host 需要为设计器提供一个具有明确高度的容器，并显式加载 `styles.css`。React 19、React DOM 和 `@preact/signals-react` 是 peer dependencies，使用方必须自行声明。
 
 ### 只读模板预览
 

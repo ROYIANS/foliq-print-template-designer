@@ -291,7 +291,7 @@ export function WorkspaceHome({
   const [deleteTarget, setDeleteTarget] = useState<TemplateSummary>()
   const [deleteError, setDeleteError] = useState<string>()
   const [notice, setNotice] = useState<{ kind: 'success' | 'error'; message: string }>()
-  const actionRequestRef = useRef<AbortController>()
+  const actionRequestRef = useRef<AbortController | undefined>(undefined)
   const actionPendingRef = useRef(false)
 
   useEffect(() => () => actionRequestRef.current?.abort(), [])
