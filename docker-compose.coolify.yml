@@ -1,0 +1,109 @@
+# Foliq (print-template-designer) — Coolify variant of the repo docker-compose.yml
+#
+# Differences from the repo version:
+#   - no build contexts: Coolify pulls the prebuilt GHCR images only
+#   - no host port mapping: `web` is published through Coolify's Domain setting
+#     for this service application (no traefik.* labels here — Coolify does not
+#     expand ${VAR} placeholders inside labels, so they must not be used)
+#   - `migrate` runs once per deploy and must exit 0 before `server` starts
+#
+# Required environment variables (set in Coolify, not here):
+#   POSTGRES_PASSWORD  BETTER_AUTH_SECRET  BETTER_AUTH_URL  PTD_WEB_ORIGIN
+#   GITHUB_CLIENT_ID   GITHUB_CLIENT_SECRET
+# Optional: PTD_ADMIN_EMAILS  PTD_DEMO_MODE  PTD_OUTPUT_MAX_CONCURRENCY
+#           PTD_OUTPUT_TIMEOUT_MS  IMAGE_TAG
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-ptd}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-ptd}
+    volumes:
+      - ptd-pgdata:/var/lib/postgresql/data
+    expose:
+      - '5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 5s
+      timeout: 5s
+      start_period: 5s
+      retries: 12
+    networks:
+      - foliq
+
+  migrate:
+    image: ${SERVER_IMAGE_REPOSITORY:-ghcr.io/royians/print-template-designer-server}:${IMAGE_TAG:-latest}
+    restart: 'no'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-ptd}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-ptd}?schema=public
+    command: ['./node_modules/.bin/prisma', 'migrate', 'deploy']
+    healthcheck:
+      disable: true
+    networks:
+      - foliq
+
+  server:
+    image: ${SERVER_IMAGE_REPOSITORY:-ghcr.io/royians/print-template-designer-server}:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-ptd}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-ptd}?schema=public
+      PORT: '3000'
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+      PTD_WEB_ORIGIN: ${PTD_WEB_ORIGIN}
+      PTD_ADMIN_EMAILS: ${PTD_ADMIN_EMAILS:-}
+      PTD_DEMO_MODE: ${PTD_DEMO_MODE:-false}
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+      PTD_TRUST_PROXY: 'true'
+      PTD_OUTPUT_RENDER_URL: http://web/output-render.html
+      PTD_OUTPUT_MAX_CONCURRENCY: ${PTD_OUTPUT_MAX_CONCURRENCY:-2}
+      PTD_OUTPUT_TIMEOUT_MS: ${PTD_OUTPUT_TIMEOUT_MS:-30000}
+    expose:
+      - '3000'
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - node -e "fetch('http://127.0.0.1:3000/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 15s
+      timeout: 5s
+      start_period: 30s
+      retries: 8
+    networks:
+      - foliq
+
+  web:
+    image: ${WEB_IMAGE_REPOSITORY:-ghcr.io/royians/print-template-designer-web}:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    depends_on:
+      server:
+        condition: service_healthy
+    expose:
+      - '80'
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -qO- http://127.0.0.1/healthz >/dev/null || exit 1']
+      interval: 15s
+      timeout: 5s
+      start_period: 10s
+      retries: 5
+    networks:
+      - foliq
+      - coolify
+
+volumes:
+  ptd-pgdata:
+
+networks:
+  foliq:
+    driver: bridge
+  coolify:
+    external: true
