@@ -1,7 +1,7 @@
 import { RiArrowRightLine, RiRefreshLine } from '@remixicon/react'
-import { authClient } from './auth-client'
+import { authClient } from '../../auth/auth-client'
 import { GitHubSignInButton } from './GitHubSignInButton'
-import type { AccessState } from './LandingPage'
+import type { AccessState } from '../landing/LandingPage'
 import styles from './LoginPage.module.css'
 
 export function LoginPage({

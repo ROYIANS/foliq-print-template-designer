@@ -2,9 +2,9 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import type { OutputDocument, OutputDiagnostic } from '@ptd/core'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createOutputJob } from '../outputJob'
-import { OutputPreview } from '../OutputPreview'
-import { INITIAL_TEMPLATE } from '../templates'
+import { createOutputJob } from '../../output/outputJob'
+import { OutputPreview } from './OutputPreview'
+import { INITIAL_TEMPLATE } from '../../documents/templates'
 
 const exportMocks = vi.hoisted(() => ({
   compile: vi.fn(),

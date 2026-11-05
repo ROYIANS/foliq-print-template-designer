@@ -1,9 +1,9 @@
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { HelpSheet } from '../HelpSheet'
-import { SaveAsSheet } from '../SaveAsSheet'
-import { DeleteTemplateDialog, RestoreVersionDialog, UnsavedDialog } from '../WorkspaceDialogs'
+import { HelpSheet } from './HelpSheet'
+import { SaveAsSheet } from './SaveAsSheet'
+import { DeleteTemplateDialog, RestoreVersionDialog, UnsavedDialog } from './WorkspaceDialogs'
 
 describe('workspace decision surfaces', () => {
   let container: HTMLDivElement

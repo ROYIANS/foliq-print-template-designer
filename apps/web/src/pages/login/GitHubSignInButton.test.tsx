@@ -4,11 +4,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const authMocks = vi.hoisted(() => ({ social: vi.fn() }))
 
-vi.mock('../auth-client', () => ({
+vi.mock('../../auth/auth-client', () => ({
   authClient: { signIn: { social: authMocks.social } },
 }))
 
-import { GitHubSignInButton } from '../GitHubSignInButton'
+import { GitHubSignInButton } from './GitHubSignInButton'
 
 describe('GitHubSignInButton', () => {
   let container: HTMLDivElement

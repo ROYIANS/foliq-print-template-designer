@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { deserialize, serialize, type TemplateSchema } from '@ptd/core'
 import type { DesignerDocumentStatus, DesignerHostCommandStates } from '@ptd/react-designer'
 import { INITIAL_TEMPLATE } from './templates'
-import { TemplateApiError, templateApi, type TemplateApi, type TemplateRecord } from './templateApi'
+import { TemplateApiError, templateApi, type TemplateApi, type TemplateRecord } from '../api/templateApi'
 
 export interface DocumentState {
   id?: number

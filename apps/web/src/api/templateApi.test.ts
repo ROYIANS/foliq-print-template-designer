@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import type { TemplateSchema } from '@ptd/core'
-import { INITIAL_TEMPLATE } from '../templates'
-import { createTemplateApi, TemplateApiError } from '../templateApi'
+import { INITIAL_TEMPLATE } from '../documents/templates'
+import { createTemplateApi, TemplateApiError } from './templateApi'
 
 const NOW = '2026-07-31T08:30:00.000Z'
 

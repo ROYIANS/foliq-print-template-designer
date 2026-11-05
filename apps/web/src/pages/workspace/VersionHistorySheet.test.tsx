@@ -1,9 +1,9 @@
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { INITIAL_TEMPLATE } from '../templates'
-import { TemplateApiError, type TemplateApi, type TemplateVersionRecord } from '../templateApi'
-import { VersionHistorySheet } from '../VersionHistorySheet'
+import { INITIAL_TEMPLATE } from '../../documents/templates'
+import { TemplateApiError, type TemplateApi, type TemplateVersionRecord } from '../../api/templateApi'
+import { VersionHistorySheet } from './VersionHistorySheet'
 
 const NOW = '2026-07-31T08:30:00.000Z'
 

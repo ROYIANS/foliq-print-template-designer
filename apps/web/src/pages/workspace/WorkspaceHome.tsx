@@ -16,7 +16,7 @@ import {
   templateApi,
   type TemplateApi,
   type TemplateSummary,
-} from './templateApi'
+} from '../../api/templateApi'
 import { MAX_RECENT_TEMPLATE_PREVIEWS, useRecentTemplateDetails } from './useRecentTemplateDetails'
 import { SaveAsSheet } from './SaveAsSheet'
 import { DeleteTemplateDialog } from './WorkspaceDialogs'

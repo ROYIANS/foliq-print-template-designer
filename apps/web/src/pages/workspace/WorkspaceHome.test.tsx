@@ -7,8 +7,8 @@ import {
   type TemplateApi,
   type TemplateRecord,
   type TemplateSummary,
-} from '../templateApi'
-import { WorkspaceHome } from '../WorkspaceHome'
+} from '../../api/templateApi'
+import { WorkspaceHome } from './WorkspaceHome'
 
 const NOW = '2026-07-31T08:30:00.000Z'
 

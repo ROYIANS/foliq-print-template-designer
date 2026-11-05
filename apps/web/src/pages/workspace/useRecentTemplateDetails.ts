@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import type { TemplateApi, TemplateRecord } from './templateApi'
+import type { TemplateApi, TemplateRecord } from '../../api/templateApi'
 
 export const MAX_RECENT_TEMPLATE_PREVIEWS = 4
 

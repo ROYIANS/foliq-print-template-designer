@@ -98,7 +98,7 @@ Implemented library packages use **Vitest** for unit tests.
 
 ### Landing-page current-state copy contract
 
-`apps/web/src/LandingPage.tsx` is a public implementation surface, not a historical marketing
+`apps/web/src/pages/landing/LandingPage.tsx` is a public implementation surface, not a historical marketing
 snapshot. Whenever authentication/access policy, demo reset behavior, persistence/versioning,
 Datasource, preview/output, deployment environment variables, or licensing changes, audit every
 landing-page section in the same change.

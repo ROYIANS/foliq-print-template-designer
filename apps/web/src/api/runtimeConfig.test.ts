@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseRuntimeConfig } from '../runtimeConfig'
+import { parseRuntimeConfig } from './runtimeConfig'
 
 describe('runtime config', () => {
   it('accepts only the public deployment fields', () => {

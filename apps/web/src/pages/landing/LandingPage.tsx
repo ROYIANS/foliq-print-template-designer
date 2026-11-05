@@ -5,9 +5,9 @@ import {
   type PointerEvent as ReactPointerEvent,
   type ReactNode,
 } from 'react'
-import { authClient } from './auth-client'
-import { GitHubSignInButton } from './GitHubSignInButton'
-import type { LandingNotice } from './navigation'
+import { authClient } from '../../auth/auth-client'
+import { GitHubSignInButton } from '../login/GitHubSignInButton'
+import type { LandingNotice } from '../../routing/navigation'
 import styles from './LandingPage.module.css'
 
 export interface AccountUser {

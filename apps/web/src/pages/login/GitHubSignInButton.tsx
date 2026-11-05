@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { RiArrowRightLine, RiGithubFill } from '@remixicon/react'
-import { authClient } from './auth-client'
+import { authClient } from '../../auth/auth-client'
 import styles from './GitHubSignInButton.module.css'
 
 export function GitHubSignInButton({ callbackURL = '/app' }: { callbackURL?: string }) {

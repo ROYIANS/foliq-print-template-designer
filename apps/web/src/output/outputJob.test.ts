@@ -1,7 +1,7 @@
 import type { TemplateSchema } from '@ptd/core'
 import { describe, expect, it } from 'vitest'
-import { createOutputJob } from '../outputJob'
-import { INITIAL_TEMPLATE } from '../templates'
+import { createOutputJob } from './outputJob'
+import { INITIAL_TEMPLATE } from '../documents/templates'
 
 const NOW = '2026-08-03T08:30:00.000Z'
 

@@ -1,9 +1,9 @@
 import { StrictMode, act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { INITIAL_TEMPLATE } from '../templates'
-import type { TemplateApi, TemplateRecord } from '../templateApi'
-import { useRecentTemplateDetails } from '../useRecentTemplateDetails'
+import { INITIAL_TEMPLATE } from '../../documents/templates'
+import type { TemplateApi, TemplateRecord } from '../../api/templateApi'
+import { useRecentTemplateDetails } from './useRecentTemplateDetails'
 
 const IDS = [1, 2, 3, 4, 5, 6] as const
 const NOW = '2026-07-31T08:30:00.000Z'

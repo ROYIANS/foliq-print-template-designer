@@ -47,8 +47,8 @@ React + Vite 的设计器 Host，也是 GHCR Web 镜像和完整自托管栈的�
 18. 演示模式在 `/app` 展示完整重置说明和 GitHub Fork 操作，在设计/预览深层路由展示可关闭的紧凑提示；
     文案明确访客模板每日北京时间 08:00 恢复，管理员数据不受影响。关闭状态在当前浏览器会话内保留。
 
-`src/templateApi.ts` 覆盖模板 CRUD 和版本 list/get/restore 合同，负责 Cookie、AbortSignal、成功响应
-运行时校验和结构化 HTTP/网络错误。`src/useDocumentController.ts` 负责文档状态机和请求竞态；Dirty
+`src/api/templateApi.ts` 覆盖模板 CRUD 和版本 list/get/restore 合同，负责 Cookie、AbortSignal、成功响应
+运行时校验和结构化 HTTP/网络错误。`src/documents/useDocumentController.ts` 负责文档状态机和请求竞态；Dirty
 通过 `@ptd/core` 的规范化序列化与保存基线比较，因此 Undo 回已保存内容会准确恢复 Clean。
 Datasource 字段、样例和绑定属于模板更改，会自然进入 Dirty/History 和不可变版本；校样模式、字段搜索、
 展开状态与当前记录索引是 Designer 实例状态，不写入模板或版本。

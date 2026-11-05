@@ -7,7 +7,7 @@ import {
   type TemplateApi,
   type TemplateVersionRecord,
   type TemplateVersionSummary,
-} from './templateApi'
+} from '../../api/templateApi'
 import styles from './VersionHistorySheet.module.css'
 
 interface VersionHistorySheetProps {

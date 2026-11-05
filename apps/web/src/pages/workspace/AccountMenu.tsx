@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { RiArrowDownSLine } from '@remixicon/react'
-import type { AccountUser } from './LandingPage'
+import type { AccountUser } from '../landing/LandingPage'
 import styles from './AccountMenu.module.css'
 
 interface AccountMenuProps {

@@ -6,7 +6,7 @@ import {
   templateSlug,
   workspaceViewFromLocation,
   workspaceViewFromSearch,
-} from '../navigation'
+} from './navigation'
 
 describe('protected workspace routing', () => {
   it('separates Home, design and print preview URLs', () => {

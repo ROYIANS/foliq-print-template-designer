@@ -5,12 +5,12 @@ import {
   type DesignerHostCommandId,
   type TemplateSchema,
 } from '@ptd/react-designer'
-import { AccountMenu } from './AccountMenu'
-import { authClient } from './auth-client'
-import { DemoModeNotice } from './DemoModeNotice'
-import { HelpSheet, type HelpSheetView } from './HelpSheet'
-import { LandingPage, type AccessState, type AccountUser } from './LandingPage'
-import { LoginPage } from './LoginPage'
+import { AccountMenu } from './pages/workspace/AccountMenu'
+import { authClient } from './auth/auth-client'
+import { DemoModeNotice } from './pages/workspace/DemoModeNotice'
+import { HelpSheet, type HelpSheetView } from './pages/workspace/HelpSheet'
+import { LandingPage, type AccessState, type AccountUser } from './pages/landing/LandingPage'
+import { LoginPage } from './pages/login/LoginPage'
 import {
   documentUrl,
   isProductCaptureSearch,
@@ -20,32 +20,32 @@ import {
   routeFromPathname,
   workspaceViewFromLocation,
   type WorkspaceView,
-} from './navigation'
-import { SaveAsSheet } from './SaveAsSheet'
-import { createOutputJob } from './outputJob'
-import { OutputPreview } from './OutputPreview'
-import { downloadOutputPdf, outputApi, outputApiErrorMessage } from './outputApi'
+} from './routing/navigation'
+import { SaveAsSheet } from './pages/workspace/SaveAsSheet'
+import { createOutputJob } from './output/outputJob'
+import { OutputPreview } from './pages/preview/OutputPreview'
+import { downloadOutputPdf, outputApi, outputApiErrorMessage } from './output/outputApi'
 import {
   PRODUCT_CAPTURE_KEYS,
   PRODUCT_CAPTURE_TEMPLATES,
   type ProductCaptureKey,
-} from './templates'
+} from './documents/templates'
 import {
   downloadTemplateJson,
   readTemplateJsonFile,
   templateJsonErrorMessage,
-} from './templateJson'
+} from './documents/templateJson'
 import {
   documentHostCommandStates,
   shouldConfirmDocumentExit,
   useDocumentController,
   type TemplateLocator,
-} from './useDocumentController'
-import { RestoreVersionDialog, UnsavedDialog } from './WorkspaceDialogs'
-import { WorkspaceHome } from './WorkspaceHome'
-import { VersionHistorySheet } from './VersionHistorySheet'
-import { useRuntimeConfig } from './runtimeConfig'
-import type { TemplateRecord } from './templateApi'
+} from './documents/useDocumentController'
+import { RestoreVersionDialog, UnsavedDialog } from './pages/workspace/WorkspaceDialogs'
+import { WorkspaceHome } from './pages/workspace/WorkspaceHome'
+import { VersionHistorySheet } from './pages/workspace/VersionHistorySheet'
+import { useRuntimeConfig } from './api/runtimeConfig'
+import type { TemplateRecord } from './api/templateApi'
 import styles from './App.module.css'
 
 interface LocationState {

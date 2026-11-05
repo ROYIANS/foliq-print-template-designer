@@ -1,12 +1,12 @@
 import { CURRENT_TEMPLATE_VERSION, TEMPLATE_SCHEMA_JSON_LIMIT_BYTES } from '@ptd/core'
 import { describe, expect, it } from 'vitest'
-import { INITIAL_TEMPLATE } from '../templates'
+import { INITIAL_TEMPLATE } from './templates'
 import {
   TemplateJsonError,
   parseTemplateJson,
   serializeTemplateJson,
   templateJsonFilename,
-} from '../templateJson'
+} from './templateJson'
 
 describe('template JSON exchange', () => {
   it('exports readable canonical JSON without server document metadata', () => {

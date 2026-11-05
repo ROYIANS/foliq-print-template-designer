@@ -1,12 +1,12 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { createOutputJob } from '../outputJob'
+import { createOutputJob } from './outputJob'
 import {
   createOutputApi,
   downloadOutputPdf,
   OutputApiError,
   outputApiErrorMessage,
-} from '../outputApi'
-import { INITIAL_TEMPLATE } from '../templates'
+} from './outputApi'
+import { INITIAL_TEMPLATE } from '../documents/templates'
 
 const NOW = '2026-08-03T08:30:00.000Z'
 

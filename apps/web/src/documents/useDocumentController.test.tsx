@@ -1,15 +1,15 @@
 import { act, StrictMode } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { INITIAL_TEMPLATE } from '../templates'
-import { parseTemplateJson } from '../templateJson'
-import { TemplateApiError, type TemplateApi, type TemplateRecord } from '../templateApi'
+import { INITIAL_TEMPLATE } from './templates'
+import { parseTemplateJson } from './templateJson'
+import { TemplateApiError, type TemplateApi, type TemplateRecord } from '../api/templateApi'
 import {
   documentHostCommandStates,
   shouldConfirmDocumentExit,
   useDocumentController,
   type DocumentController,
-} from '../useDocumentController'
+} from './useDocumentController'
 
 const NOW = '2026-07-31T08:30:00.000Z'
 
